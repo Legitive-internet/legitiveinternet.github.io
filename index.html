@@ -1,0 +1,1103 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Ligitive Internet | Red Zone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', monospace;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #1a0505 0%, #0a0101 100%);
+            color: #f0e0e0;
+            padding: 1rem;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(200, 50, 50, 0.02) 0px, rgba(200, 50, 50, 0.02) 2px, transparent 2px, transparent 8px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mono-header {
+            background: rgba(20, 5, 5, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 3px solid #ff3333;
+            border-radius: 2rem 2rem 1rem 1rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .mono-header:hover {
+            box-shadow: 0 15px 40px rgba(255, 50, 50, 0.3);
+            border-bottom-color: #ff5555;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            font-family: 'Segoe UI', 'Impact', sans-serif;
+            background: linear-gradient(135deg, #ff3366, #ff0033, #ff6666, #ff0000, #ff3366);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 4s ease infinite;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .logo p {
+            font-size: 0.7rem;
+            color: #ff8888;
+            letter-spacing: 2px;
+            margin-top: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .rank-badge {
+            background: linear-gradient(135deg, #2a0a0a, #1a0303);
+            padding: 0.5rem 1.2rem;
+            border-radius: 3rem;
+            border-left: 4px solid #ff3333;
+            border-right: 1px solid #ff3333;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #ffcccc;
+            box-shadow: 0 0 12px rgba(255, 50, 50, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 800px) {
+            .grid-2col {
+                grid-template-columns: 1fr 1.2fr;
+            }
+            body {
+                padding: 1.5rem;
+            }
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        .card {
+            background: rgba(20, 6, 6, 0.9);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 50, 50, 0.4);
+            padding: 1.2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 80, 80, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .card h2 {
+            border-left: 5px solid #ff3333;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #ffdddd;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            background: #1f0a0a;
+            border: 1px solid #aa3333;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            color: #ffe0e0;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #ff5555;
+            box-shadow: 0 0 12px rgba(255, 50, 50, 0.5);
+            background: #2a0f0f;
+        }
+
+        button, .admin-btn-small, .pin-btn, .ban-btn, .delete-user-btn, .delete-case-btn,
+        .complain-btn, .edit-username-btn, .end-sess-btn, .close-modal, .close-admin, .status-change {
+            background: linear-gradient(135deg, #8b1a1a, #5a0a0a);
+            border: 1px solid #ff4444;
+            color: #fff;
+            font-weight: bold;
+            padding: 0.7rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            margin-top: 0.4rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        button:hover, .admin-btn-small:hover, .pin-btn:hover, .ban-btn:hover, .delete-user-btn:hover,
+        .delete-case-btn:hover, .complain-btn:hover, .edit-username-btn:hover, .end-sess-btn:hover,
+        .close-modal:hover, .close-admin:hover, .status-change:hover {
+            background: linear-gradient(135deg, #c0392b, #8b1a1a);
+            transform: translateY(-2px);
+            border-color: #ff6666;
+            box-shadow: 0 6px 15px rgba(255, 50, 50, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            background: #5a1515;
+        }
+
+        .admin-btn-small, .pin-btn, .ban-btn, .delete-user-btn, .delete-case-btn,
+        .complain-btn, .edit-username-btn, .end-sess-btn, .status-change {
+            width: auto;
+            margin-top: 0;
+            padding: 0.4rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .cases-list {
+            margin-top: 0.8rem;
+            max-height: 550px;
+            overflow-y: auto;
+            border-radius: 1rem;
+            padding: 0.2rem;
+        }
+
+        .case-item {
+            background: rgba(25, 8, 8, 0.9);
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            border-left: 5px solid #ff3333;
+            transition: all 0.2s;
+        }
+
+        .case-item:hover {
+            background: rgba(35, 12, 12, 0.95);
+            border-left-color: #ff6666;
+            transform: translateX(5px);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .case-title {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #ffc5c5;
+        }
+
+        .case-author {
+            font-size: 0.7rem;
+            background: #4a1515;
+            padding: 0.25rem 0.6rem;
+            border-radius: 1rem;
+            color: #ffaaaa;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .case-author:hover {
+            background: #ff3333;
+            color: #fff;
+        }
+
+        .case-goal, .case-desc, .case-reason {
+            font-size: 0.8rem;
+            margin: 0.4rem 0;
+            color: #e0b0b0;
+            line-height: 1.4;
+        }
+
+        .case-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .case-status {
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            display: inline-block;
+        }
+
+        .status-solved {
+            color: #6fbf6f;
+            background: #1a2a1a;
+            border-left: 2px solid #6fbf6f;
+        }
+
+        .status-unsolved {
+            color: #ff8888;
+            background: #2a1515;
+            border-left: 2px solid #ff3333;
+        }
+
+        .status-inprogress {
+            color: #f0b27a;
+            background: #2a1a0f;
+            border-left: 2px solid #ff9900;
+        }
+
+        .comments-toggle {
+            background: #3a1212;
+            border: 1px solid #aa3a3a;
+            color: #ffaaaa;
+            padding: 0.25rem 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            width: auto;
+        }
+
+        .comments-section {
+            margin-top: 0.7rem;
+            border-top: 1px solid #7a2525;
+            padding-top: 0.6rem;
+            display: none;
+        }
+
+        .comments-section.open {
+            display: block;
+        }
+
+        .comment-item {
+            background: #2a0a0a;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.8rem;
+            font-size: 0.7rem;
+        }
+
+        .telegram-widget-container {
+            margin: 1rem 0 0 0;
+            display: flex;
+            justify-content: center;
+            min-height: 76px;
+        }
+
+        .tg-note {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #ffaa99;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 2, 2, 0.98);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: #1f0a0a;
+            border: 2px solid #ff3333;
+            border-radius: 1.5rem;
+            max-width: 550px;
+            width: 100%;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px rgba(255, 0, 0, 0.3);
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.6rem;
+            background: #2a0f0f;
+            border-bottom: 2px solid #7a2525;
+            border-radius: 0.8rem 0.8rem 0 0;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tab-btn.active {
+            background: #4a1818;
+            border-bottom-color: #ff3333;
+            color: #fff;
+        }
+
+        .profile-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ff3333;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            border-color: #ff6666;
+        }
+
+        .id-copy {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: #2a0f0f;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            cursor: pointer;
+        }
+
+        .id-copy:hover {
+            background: #ff3333;
+        }
+
+        .pinned-badge {
+            background: #8b2a2a;
+            color: #ffd966;
+            padding: 0.2rem 0.4rem;
+            border-radius: 1rem;
+            font-size: 0.6rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a0505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff3333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff6666;
+        }
+    </style>
+    <script src="https://telegram.org/js/telegram-widget.js?22" async></script>
+</head>
+<body>
+<div class="container">
+    <div class="mono-header">
+        <div class="logo">
+            <h1>LEGITIVE INTERNET</h1>
+            <p>⚡ RED ZONE ACCESS ⚡</p>
+        </div>
+        <div class="rank-badge" id="globalRankDisplay">Гость</div>
+    </div>
+
+    <div class="grid-2col">
+        <div class="card">
+            <h2>⚡ МЕНЮ</h2>
+            <div id="authArea"></div>
+            <hr style="margin: 0.8rem 0;">
+            <div id="proposeButtonArea"><button id="openProposeModalBtn" disabled>📁 ПРЕДЛОЖИТЬ КЕЙС</button></div>
+            <div id="cabinetButtonArea"><button id="openCabinetBtn" style="display:none;">👤 ЛИЧНЫЙ КАБИНЕТ</button></div>
+            <div id="adminButtonArea"><button id="openAdminPanelBtn" style="display:none;">🛡️ АДМИН ПАНЕЛЬ</button></div>
+            <div id="telegramButtonArea"><button id="telegramBtn">📢 НАШ TELEGRAM</button></div>
+            <div id="supportButtonArea"><button id="supportBtn">🆘 ТЕХПОДДЕРЖКА</button></div>
+            <div id="loggedInfo" style="margin-top:0.8rem; font-size:0.7rem; background:#2a0f0f; padding:0.5rem; border-radius:1rem; text-align:center;"></div>
+        </div>
+
+        <div class="card">
+            <h2>🔥 КЕЙСЫ</h2>
+            <div id="casesContainer" class="cases-list"><div class="empty-message">Загрузка...</div></div>
+            <div class="info-note">💡 Нажмите на ник автора, чтобы открыть профиль</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🔍 ПОИСК ПОЛЬЗОВАТЕЛЕЙ</h2>
+        <div id="searchBlock"></div>
+    </div>
+
+    <footer style="text-align:center; margin-top:1.5rem; color:#b55a5a; font-size:0.7rem; padding:1rem;">
+        © LEGITIVE INTERNET — Все права защищены | Red Line Security
+    </footer>
+</div>
+
+<script>
+    (function(){
+        // ---------- CONFIG ----------
+        // Используем напрямую username бота (без запроса к API)
+        const BOT_USERNAME = "LigitiveInternet_bot";
+        let curIP = "loading";
+        let curSess = null;
+        let curUser = null;
+        const OWNER_HASH = "f7c3bc1d808e04732adf679965ccc34ca7ae344141a5c98f3f7b5c6c6b6b8b4c";
+
+        // ---------- UTILS ----------
+        async function getIP() {
+            try {
+                const r = await fetch('https://api.ipify.org?format=json');
+                const d = await r.json();
+                return d.ip;
+            } catch(e) { return '127.0.0.1'; }
+        }
+
+        async function hashPass(pwd) {
+            if(!pwd) return "";
+            const enc = new TextEncoder();
+            const buf = await crypto.subtle.digest('SHA-256', enc.encode(pwd));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
+
+        async function logAct(act, uname, ok=true) {
+            if(curIP === 'loading') curIP = await getIP();
+            let logs = JSON.parse(localStorage.getItem("osint_logs") || '[]');
+            logs.unshift({id:Date.now(), ts:new Date().toISOString(), ip:curIP, act, uname, ok});
+            if(logs.length > 350) logs.pop();
+            localStorage.setItem("osint_logs", JSON.stringify(logs));
+        }
+
+        function getSess() { return JSON.parse(localStorage.getItem("osint_sessions") || '{}'); }
+        function saveSess(s) { localStorage.setItem("osint_sessions", JSON.stringify(s)); }
+
+        async function newSess(uid, username) {
+            if(username === "DESPITE") {
+                let sess = getSess();
+                if(sess[uid]) delete sess[uid];
+                saveSess(sess);
+            }
+            let sess = getSess();
+            if(!sess[uid]) sess[uid] = [];
+            const sid = Date.now() + '_' + Math.random().toString(36).substr(2, 10);
+            const ip = await getIP();
+            const ua = navigator.userAgent;
+            let dev = 'Unknown';
+            if(ua.includes('Windows')) dev='Windows';
+            else if(ua.includes('Mac')) dev='Mac';
+            else if(ua.includes('Linux')) dev='Linux';
+            else if(ua.includes('Android')) dev='Android';
+            else if(ua.includes('iPhone')||ua.includes('iPad')) dev='iOS';
+            sess[uid].push({sid, ip, ua, dev, loginTime:new Date().toISOString(), lastActive:new Date().toISOString()});
+            saveSess(sess);
+            return sid;
+        }
+
+        function killSess(uid, sid) {
+            let sess = getSess();
+            if(sess[uid]) sess[uid] = sess[uid].filter(s => s.sid !== sid);
+            saveSess(sess);
+        }
+
+        function genUserId(users) {
+            let newId, exists;
+            do {
+                newId = Math.floor(10000000 + Math.random() * 90000000).toString();
+                exists = users.some(u => u.userId === newId);
+            } while(exists);
+            return newId;
+        }
+
+        function fixUserIds() {
+            let users = JSON.parse(localStorage.getItem("osint_users") || '[]');
+            let changed = false;
+            for(let u of users) {
+                if(!u.userId) {
+                    u.userId = genUserId(users);
+                    changed = true;
+                }
+            }
+            if(changed) localStorage.setItem("osint_users", JSON.stringify(users));
+        }
+
+        function rankIcon(r) {
+            if(r==='owner') return '👑';
+            if(r==='moderator') return '🛡️';
+            if(r==='analyst') return '🕵️';
+            if(r==='curator') return '🎓';
+            return '⚡';
+        }
+
+        function rankName(r) {
+            if(r==='owner') return 'Владелец';
+            if(r==='moderator') return 'Модератор';
+            if(r==='analyst') return 'Аналитик';
+            if(r==='curator') return 'Куратор';
+            return 'Пользователь';
+        }
+
+        function rankHtml(r) {
+            return `${rankIcon(r)} ${rankName(r)}`;
+        }
+
+        function avatarUrl(username) {
+            let users = JSON.parse(localStorage.getItem("osint_users") || '[]');
+            let u = users.find(u => u.username === username);
+            if(u && u.avatar) return u.avatar;
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=c0392b&color=fff&size=80&rounded=true&bold=true`;
+        }
+
+        function escapeHtml(s) {
+            if(!s) return '';
+            return s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+        }
+
+        // ---------- TELEGRAM WIDGET (сразу отображается) ----------
+        function renderTelegramWidget() {
+            const container = document.getElementById("telegramWidgetContainer");
+            if(!container) return;
+            container.innerHTML = '<div id="telegramLoginWidget" style="display:flex; justify-content:center;"></div>';
+            const widgetDiv = document.getElementById("telegramLoginWidget");
+            if(widgetDiv) {
+                const script = document.createElement('script');
+                script.src = "https://telegram.org/js/telegram-widget.js?22";
+                script.setAttribute('data-telegram-login', BOT_USERNAME);
+                script.setAttribute('data-size', "medium");
+                script.setAttribute('data-radius', "20");
+                script.setAttribute('data-onauth', "onTelegramAuth");
+                script.setAttribute('data-request-access', "write");
+                script.async = true;
+                widgetDiv.innerHTML = '';
+                widgetDiv.appendChild(script);
+            }
+        }
+
+        window.onTelegramAuth = async function(user) {
+            if(!user || !user.id) return alert("Ошибка авторизации");
+            let tgId = user.id.toString();
+            let tgUsername = (user.username || (user.first_name + (user.last_name || ""))).toLowerCase();
+            let photo = user.photo_url || "";
+            let users = JSON.parse(localStorage.getItem("osint_users") || '[]');
+            let existing = users.find(u => u.telegram_id === tgId);
+            if(existing) {
+                if(existing.banned) return alert("Аккаунт заблокирован");
+                await doTelegramLogin(existing);
+                return;
+            }
+            let byName = users.find(u => u.username === tgUsername);
+            if(byName && !byName.telegram_id) {
+                if(confirm(`Аккаунт ${tgUsername} уже существует. Привязать Telegram?`)) {
+                    byName.telegram_id = tgId;
+                    if(photo) byName.avatar = photo;
+                    localStorage.setItem("osint_users", JSON.stringify(users));
+                    await doTelegramLogin(byName);
+                    return;
+                }
+            }
+            let finalName = tgUsername;
+            let counter = 1;
+            while(users.some(u => u.username === finalName)) {
+                finalName = tgUsername + "_" + counter++;
+            }
+            let newId = users.length ? Math.max(...users.map(u=>u.id)) + 1 : 2;
+            let newUserId = genUserId(users);
+            let newUser = {
+                id: newId,
+                username: finalName,
+                password: "",
+                rank: "user",
+                createdAt: Date.now(),
+                bio: "Зарегистрирован через Telegram",
+                banned: false,
+                pinned: false,
+                userId: newUserId,
+                telegram_id: tgId,
+                avatar: photo || null
+            };
+            users.push(newUser);
+            localStorage.setItem("osint_users", JSON.stringify(users));
+            await logAct("Регистрация через Telegram", finalName, true);
+            await doTelegramLogin(newUser);
+            alert(`Добро пожаловать, ${finalName}!`);
+        };
+
+        async function doTelegramLogin(userObj) {
+            let sid = await newSess(userObj.id, userObj.username);
+            curSess = sid;
+            curUser = { ...userObj };
+            localStorage.setItem("currentUserId", userObj.id);
+            localStorage.setItem("currentSessionId", sid);
+            await logAct("Вход через Telegram", userObj.username, true);
+            renderAuth();
+            renderCases();
+            updateRank();
+            updateSearch();
+        }
+
+        // ---------- CORE ----------
+        function getUsers() { return JSON.parse(localStorage.getItem("osint_users") || '[]'); }
+        function getCases() { return JSON.parse(localStorage.getItem("osint_cases") || '[]'); }
+        function saveUsers(u) { localStorage.setItem("osint_users", JSON.stringify(u)); }
+        function saveCases(c) { localStorage.setItem("osint_cases", JSON.stringify(c)); }
+
+        function getComments() { return JSON.parse(localStorage.getItem("osint_comments") || '{}'); }
+        function saveComments(c) { localStorage.setItem("osint_comments", JSON.stringify(c)); }
+
+        async function addComment(caseId, text) {
+            if(!curUser) return alert("Войдите");
+            if(!text.trim()) return alert("Пустой комментарий");
+            let comments = getComments();
+            if(!comments[caseId]) comments[caseId] = [];
+            comments[caseId].push({id:Date.now(), authorId:curUser.id, authorName:curUser.username, text:text.trim(), createdAt:Date.now()});
+            saveComments(comments);
+            await logAct(`Комментарий к кейсу ${caseId}`, curUser.username, true);
+            renderCases();
+        }
+
+        async function deleteComment(caseId, commentId) {
+            if(!curUser) return;
+            let comments = getComments();
+            if(!comments[caseId]) return;
+            let idx = comments[caseId].findIndex(c => c.id === commentId);
+            if(idx === -1) return;
+            let comment = comments[caseId][idx];
+            let can = (curUser.id === comment.authorId || ['owner','moderator','curator'].includes(curUser.rank));
+            if(!can) return alert("Недостаточно прав");
+            comments[caseId].splice(idx,1);
+            if(comments[caseId].length === 0) delete comments[caseId];
+            saveComments(comments);
+            await logAct(`Удаление комментария ${caseId}`, curUser.username, true);
+            renderCases();
+        }
+
+        function canPost(uid) {
+            if(curUser && curUser.rank === 'owner') return true;
+            let last = localStorage.getItem(`last_post_${uid}`);
+            if(!last) return true;
+            return (Date.now() - parseInt(last)) >= 86400000;
+        }
+
+        async function addCase(goal, desc, reason, anon) {
+            let cases = getCases();
+            let newId = cases.length ? Math.max(...cases.map(c=>c.id)) + 1 : 200;
+            let displayName = anon ? "Аноним" : curUser.username;
+            cases.push({id:newId, goal, description:desc, reason, authorId:curUser.id, authorName:displayName, anonymous:anon, createdAt:Date.now(), status:"unsolved"});
+            saveCases(cases);
+            if(curUser.rank !== 'owner') localStorage.setItem(`last_post_${curUser.id}`, Date.now().toString());
+            await logAct("Добавление кейса", curUser.username, true);
+            renderCases();
+        }
+
+        function renderCases() {
+            let container = document.getElementById("casesContainer");
+            if(!curUser) {
+                container.innerHTML = '<div class="empty-message">🔐 Войдите, чтобы увидеть кейсы</div>';
+                return;
+            }
+            let cases = getCases();
+            if(!cases.length) {
+                container.innerHTML = '<div class="empty-message">📭 Нет кейсов</div>';
+                return;
+            }
+            let comments = getComments();
+            let html = '';
+            cases.sort((a,b)=>b.createdAt - a.createdAt).forEach(c => {
+                let commentCount = comments[c.id] ? comments[c.id].length : 0;
+                let statusHtml = c.status === 'solved' ? '<span class="case-status status-solved">✅ РЕШЁН</span>' :
+                                 (c.status === 'inprogress' ? '<span class="case-status status-inprogress">⚙ В РАБОТЕ</span>' :
+                                 '<span class="case-status status-unsolved">❌ НЕ РЕШЁН</span>');
+                html += `<div class="case-item" data-case-id="${c.id}">
+                    <div class="case-header">
+                        <div class="case-title">◈ ${escapeHtml(c.goal)}</div>
+                        <div class="case-author" data-author="${!c.anonymous && c.authorName !== 'Аноним' ? c.authorName : ''}">✎ ${escapeHtml(c.authorName)}</div>
+                    </div>
+                    <div class="case-desc"><strong>📝 Описание:</strong> ${escapeHtml(c.description)}</div>
+                    <div class="case-reason"><strong>⚠️ Причина:</strong> ${escapeHtml(c.reason)}</div>
+                    <div class="case-footer">
+                        <span>${statusHtml} | ${new Date(c.createdAt).toLocaleString()}</span>
+                        <div style="display:flex; gap:0.4rem;">
+                            ${['owner','moderator','curator'].includes(curUser.rank) ? `<button class="delete-case-btn" data-id="${c.id}">🗑️ Удалить</button>` : ''}
+                            <button class="complain-btn" data-id="${c.id}">⚠️ Жалоба</button>
+                        </div>
+                    </div>
+                    <button class="comments-toggle" data-id="${c.id}">💬 Комментарии (${commentCount})</button>
+                    <div class="comments-section" id="comments-${c.id}">
+                        <div class="comment-list" id="comment-list-${c.id}">${renderCommentsList(c.id, comments[c.id] || [])}</div>
+                        <div class="add-comment-form">
+                            <textarea id="comment-text-${c.id}" placeholder="Ваш комментарий..."></textarea>
+                            <button class="add-comment-btn" data-id="${c.id}">➤</button>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+
+            document.querySelectorAll('.case-author').forEach(el => {
+                if(el.dataset.author) el.onclick = () => showProfile(el.dataset.author);
+            });
+            document.querySelectorAll('.delete-case-btn').forEach(btn => btn.onclick = async (e) => {
+                e.stopPropagation();
+                if(confirm("Удалить кейс?")) {
+                    let cases = getCases();
+                    saveCases(cases.filter(c => c.id != btn.dataset.id));
+                    await logAct("Удаление кейса", curUser.username, true);
+                    renderCases();
+                }
+            });
+            document.querySelectorAll('.complain-btn').forEach(btn => btn.onclick = async (e) => {
+                e.stopPropagation();
+                let reason = prompt("Причина жалобы (мин 3 символа):");
+                if(reason && reason.trim().length >= 3) {
+                    let compl = JSON.parse(localStorage.getItem("osint_complaints") || '[]');
+                    if(compl.some(c => c.caseId == btn.dataset.id && c.fromUserId == curUser.id && c.status === 'pending'))
+                        alert("Вы уже жаловались");
+                    else {
+                        compl.push({id:Date.now(), caseId:parseInt(btn.dataset.id), reason, fromUserId:curUser.id, fromUsername:curUser.username, status:'pending', createdAt:Date.now()});
+                        localStorage.setItem("osint_complaints", JSON.stringify(compl));
+                        alert("Жалоба отправлена");
+                    }
+                } else if(reason) alert("Минимум 3 символа");
+            });
+            document.querySelectorAll('.comments-toggle').forEach(btn => btn.onclick = (e) => {
+                e.stopPropagation();
+                document.getElementById(`comments-${btn.dataset.id}`).classList.toggle('open');
+            });
+            document.querySelectorAll('.add-comment-btn').forEach(btn => btn.onclick = async (e) => {
+                e.stopPropagation();
+                let caseId = parseInt(btn.dataset.id);
+                let text = document.getElementById(`comment-text-${caseId}`).value;
+                if(text.trim()) await addComment(caseId, text);
+                else alert("Введите текст");
+            });
+            document.querySelectorAll('.delete-comment-btn').forEach(btn => btn.onclick = async (e) => {
+                e.stopPropagation();
+                let caseId = parseInt(btn.closest('.case-item').dataset.caseId);
+                let commentId = parseInt(btn.dataset.commentId);
+                await deleteComment(caseId, commentId);
+            });
+        }
+
+        function renderCommentsList(caseId, commentsArr) {
+            if(!commentsArr.length) return '<div class="empty-message" style="padding:0.3rem;">Нет комментариев</div>';
+            let html = '';
+            commentsArr.sort((a,b)=>a.createdAt - b.createdAt).forEach(c => {
+                let canDel = curUser && (curUser.id === c.authorId || ['owner','moderator','curator'].includes(curUser.rank));
+                html += `<div class="comment-item">
+                    <div class="comment-header">
+                        <div class="comment-user" data-author="${c.authorName}">
+                            <img src="${avatarUrl(c.authorName)}" class="comment-avatar" style="width:20px;height:20px;">
+                            <span class="comment-author">${escapeHtml(c.authorName)}</span>
+                        </div>
+                        <div><span class="comment-date">${new Date(c.createdAt).toLocaleString()}</span>${canDel ? `<button class="delete-comment-btn" data-comment-id="${c.id}">🗑️</button>` : ''}</div>
+                    </div>
+                    <div class="comment-text">${escapeHtml(c.text)}</div>
+                </div>`;
+            });
+            return html;
+        }
+
+        async function registerUser() {
+            let uname = document.getElementById('regUsername').value.trim();
+            let pwd = document.getElementById('regPassword').value.trim();
+            let conf = document.getElementById('regPasswordConfirm').value.trim();
+            let bio = document.getElementById('regBio').value.trim() || "Новый пользователь";
+            if(!uname || !pwd) return alert("Заполните ник и пароль");
+            if(pwd !== conf) return alert("Пароли не совпадают");
+            if(pwd.length < 3) return alert("Минимум 3 символа");
+            if(uname.toLowerCase() === 'despite') return alert("Ник зарезервирован");
+            if(!/^[a-zA-Z0-9_]+$/.test(uname)) return alert("Только латинские буквы, цифры, _");
+            let users = getUsers();
+            if(users.find(u => u.username.toLowerCase() === uname.toLowerCase())) return alert("Ник занят");
+            let hashed = await hashPass(pwd);
+            let newId = users.length ? Math.max(...users.map(u=>u.id)) + 1 : 2;
+            let newUserId = genUserId(users);
+            users.push({id:newId, username:uname, password:hashed, rank:"user", createdAt:Date.now(), bio, banned:false, pinned:false, userId:newUserId});
+            saveUsers(users);
+            await logAct("Регистрация", uname, true);
+            alert("Регистрация успешна! Войдите.");
+            document.getElementById('loginUsername').value = uname;
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+
+        async function loginUser() {
+            let uname = document.getElementById('loginUsername').value.trim();
+            let pwd = document.getElementById('loginPassword').value.trim();
+            if(!uname) return alert("Введите ник");
+            let users = getUsers();
+            let hashed = pwd ? await hashPass(pwd) : "";
+            let found = users.find(u => u.username === uname && u.password === hashed);
+            if(!found) {
+                alert("Неверные данные");
+                await logAct("Неудачный вход", uname, false);
+                return;
+            }
+            if(found.banned) return alert("Аккаунт заблокирован");
+            if(found.username === "DESPITE") {
+                let sess = getSess();
+                if(sess[found.id]) delete sess[found.id];
+                saveSess(sess);
+            }
+            let sid = await newSess(found.id, found.username);
+            curSess = sid;
+            curUser = {id:found.id, username:found.username, rank:found.rank||'user', bio:found.bio, avatar:found.avatar, pinned:found.pinned, createdAt:found.createdAt, userId:found.userId, telegram_id:found.telegram_id};
+            localStorage.setItem("currentUserId", found.id);
+            localStorage.setItem("currentSessionId", sid);
+            await logAct("Вход", uname, true);
+            renderAuth();
+            renderCases();
+            updateRank();
+            updateSearch();
+        }
+
+        async function logoutUser() {
+            if(curUser && curSess) killSess(curUser.id, curSess);
+            curUser = null;
+            curSess = null;
+            localStorage.removeItem("currentUserId");
+            localStorage.removeItem("currentSessionId");
+            renderAuth();
+            renderCases();
+            updateRank();
+            updateSearch();
+        }
+
+        function updateRank() {
+            let el = document.getElementById("globalRankDisplay");
+            el.innerHTML = !curUser ? "🔴 Гость" : `${rankIcon(curUser.rank)} ${rankName(curUser.rank)}`;
+        }
+
+        async function showProfile(username) {
+            let users = getUsers();
+            let user = users.find(u => u.username === username);
+            if(!user) return;
+            let modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `<div class="modal-content">
+                <div style="display:flex; gap:1rem; align-items:center;">
+                    <img src="${avatarUrl(username)}" class="profile-avatar">
+                    <div>
+                        <h3>${escapeHtml(user.username)}</h3>
+                        <p>${rankHtml(user.rank)}</p>
+                        <p>ID <span class="id-copy" data-id="${escapeHtml(user.userId)}">${escapeHtml(user.userId)}</span></p>
+                        <p>📅 Рег: ${new Date(user.createdAt).toLocaleDateString()}</p>
+                    </div>
+                </div>
+                <hr style="margin:1rem 0;">
+                <p><strong>📝 Описание:</strong><br>${escapeHtml(user.bio || 'Нет описания')}</p>
+                <button class="close-modal" style="margin-top:1rem;">ЗАКРЫТЬ</button>
+            </div>`;
+            document.body.appendChild(modal);
+            modal.querySelectorAll('.id-copy').forEach(el => el.onclick = () => { navigator.clipboard.writeText(el.dataset.id); alert("ID скопирован"); });
+            modal.querySelector('.close-modal').onclick = () => modal.remove();
+            modal.onclick = (e) => { if(e.target === modal) modal.remove(); };
+        }
+
+        function updateSearch() {
+            let sb = document.getElementById('searchBlock');
+            if(!curUser) {
+                sb.innerHTML = '<div class="login-message">🔒 Доступ только для авторизованных</div>';
+                return;
+            }
+            sb.innerHTML = `<input type="text" id="searchUserInput" placeholder="Введите ник..."><button id="searchUserBtn">🔍 НАЙТИ</button><div id="searchResults"></div>`;
+            let users = getUsers();
+            function renderList(arr) {
+                let container = document.getElementById('searchResults');
+                if(!arr.length) { container.innerHTML = '<div class="empty-message">Никого не найдено</div>'; return; }
+                let html = '';
+                arr.forEach(u => {
+                    html += `<div class="search-result" data-user="${escapeHtml(u.username)}" style="background:#2a0f0f; padding:0.5rem; margin-bottom:0.5rem; border-radius:1rem; cursor:pointer; display:flex; align-items:center; gap:0.5rem;">
+                        <img src="${avatarUrl(u.username)}" style="width:35px;height:35px;border-radius:50%;">
+                        <div><strong>${escapeHtml(u.username)}${u.pinned ? ' 📌' : ''}</strong><br>${rankHtml(u.rank)}</div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+                document.querySelectorAll('.search-result').forEach(el => el.onclick = () => showProfile(el.dataset.user));
+            }
+            document.getElementById('searchUserBtn').onclick = () => {
+                let q = document.getElementById('searchUserInput').value.trim().toLowerCase();
+                let filtered = users.filter(u => u.username.toLowerCase().includes(q));
+                filtered.sort((a,b) => (a.pinned?0:1)-(b.pinned?0:1) || a.username.localeCompare(b.username));
+                renderList(filtered);
+            };
+            let all = [...users];
+            all.sort((a,b) => (a.pinned?0:1)-(b.pinned?0:1) || a.username.localeCompare(b.username));
+            renderList(all);
+        }
+
+        function renderAuth() {
+            let authDiv = document.getElementById("authArea");
+            let proposeBtn = document.getElementById("openProposeModalBtn");
+            let infoDiv = document.getElementById("loggedInfo");
+            let cabinetBtn = document.getElementById("openCabinetBtn");
+            let adminBtn = document.getElementById("openAdminPanelBtn");
+            if(!curUser) {
+                authDiv.innerHTML = `
+                    <div class="auth-tabs"><button id="tabLoginBtn" class="tab-btn active">ВХОД</button><button id="tabRegisterBtn" class="tab-btn">РЕГИСТРАЦИЯ</button></div>
+                    <div id="loginForm"><input type="text" id="loginUsername" placeholder="Ник"><input type="password" id="loginPassword" placeholder="Пароль"><button id="doLoginBtn">ВОЙТИ</button></div>
+                    <div id="registerForm" style="display:none;"><input type="text" id="regUsername" placeholder="Ник"><input type="password" id="regPassword" placeholder="Пароль"><input type="password" id="regPasswordConfirm" placeholder="Повторите"><textarea id="regBio" rows="2" placeholder="Описание"></textarea><button id="doRegisterBtn">ЗАРЕГИСТРИРОВАТЬСЯ</button></div>
+                    <div class="telegram-widget-container" id="telegramWidgetContainer"></div>
+                    <div class="tg-note">🔐 Вход через Telegram — быстро и безопасно</div>
+                `;
+                proposeBtn.disabled = true;
+                proposeBtn.innerText = "📁 ПРЕДЛОЖИТЬ КЕЙС (требуется вход)";
+                infoDiv.innerHTML = "❌ Не авторизован";
+                cabinetBtn.style.display = "none";
+                if(adminBtn) adminBtn.style.display = "none";
+                document.getElementById('doLoginBtn').onclick = loginUser;
+                document.getElementById('doRegisterBtn').onclick = registerUser;
+                let tL = document.getElementById('tabLoginBtn'), tR = document.getElementById('tabRegisterBtn');
+                tL.onclick = () => { document.getElementById('loginForm').style.display = 'block'; document.getElementById('registerForm').style.display = 'none'; tL.classList.add('active'); tR.classList.remove('active'); };
+                tR.onclick = () => { document.getElementById('loginForm').style.display = 'none'; document.getElementById('registerForm').style.display = 'block'; tR.classList.add('active'); tL.classList.remove('active'); };
+                renderTelegramWidget();
+            } else {
+                authDiv.innerHTML = `<div style="display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center;"><div><strong>${escapeHtml(curUser.username)}</strong> ${curUser.telegram_id ? '📱' : ''}</div><button id="logoutBtn">🚪 ВЫЙТИ</button></div>`;
+                proposeBtn.disabled = false;
+                proposeBtn.innerText = "📁 ПРЕДЛОЖИТЬ КЕЙС";
+                infoDiv.innerHTML = `✅ ${escapeHtml(curUser.username)} | ${rankName(curUser.rank)}`;
+                cabinetBtn.style.display = "block";
+                if(adminBtn) {
+                    if(['owner','moderator','curator'].includes(curUser.rank)) {
+                        adminBtn.style.display = "block";
+                        adminBtn.onclick = () => alert("🛠️ Админ-панель в разработке");
+                    } else adminBtn.style.display = "none";
+                }
+                document.getElementById('logoutBtn').onclick = logoutUser;
+            }
+            document.getElementById('openProposeModalBtn').onclick = () => {
+                if(!curUser) return alert("Войдите");
+                if(curUser.banned) return alert("Заблокирован");
+                if(!canPost(curUser.id)) {
+                    let last = localStorage.getItem(`last_post_${curUser.id}`);
+                    let next = new Date(parseInt(last) + 86400000);
+                    return alert(`⏳ 1 кейс в сутки. Следующий: ${next.toLocaleString()}`);
+                }
+                let modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = `<div class="modal-content">
+                    <h3>📂 НОВЫЙ КЕЙС</h3>
+                    <input id="caseGoal" placeholder="Цель *">
+                    <textarea id="caseDesc" rows="3" placeholder="Описание *"></textarea>
+                    <textarea id="caseReason" rows="2" placeholder="Причина *"></textarea>
+                    <label class="checkbox-label" style="display:flex; gap:0.5rem; margin-bottom:1rem;"><input type="checkbox" id="anonymousCheck"> Анонимно</label>
+                    <button id="submitCase">ОПУБЛИКОВАТЬ</button>
+                    <button id="cancelCase" class="close-modal">ОТМЕНА</button>
+                </div>`;
+                document.body.appendChild(modal);
+                document.getElementById('submitCase').onclick = async () => {
+                    let goal = document.getElementById('caseGoal').value.trim();
+                    let desc = document.getElementById('caseDesc').value.trim();
+                    let reason = document.getElementById('caseReason').value.trim();
+                    let anon = document.getElementById('anonymousCheck').checked;
+                    if(!goal || !desc || !reason) alert("Заполните все поля");
+                    else { await addCase(goal, desc, reason, anon); modal.remove(); alert("Кейс добавлен!"); }
+                };
+                document.getElementById('cancelCase').onclick = () => modal.remove();
+                modal.onclick = (e) => { if(e.target === modal) modal.remove(); };
+            };
+            document.getElementById('openCabinetBtn').onclick = () => {
+                if(curUser) alert(`👤 КАБИНЕТ\nНик: ${curUser.username}\nРанг: ${rankName(curUser.rank)}\nID: ${curUser.userId}\nДата регистрации: ${new Date(curUser.createdAt).toLocaleDateString()}`);
+                else alert("Войдите");
+            };
+        }
+
+        // ---------- INIT ----------
+        async function init() {
+            curIP = await getIP();
+            if(!localStorage.getItem("osint_users")) {
+                localStorage.setItem("osint_users", JSON.stringify([{id:1, username:"DESPITE", password:OWNER_HASH, rank:"owner", createdAt:Date.now(), bio:"Основатель системы", pinned:true, userId:"10000001"}]));
+            }
+            fixUserIds();
+            let savedId = localStorage.getItem("currentUserId");
+            let savedSid = localStorage.getItem("currentSessionId");
+            if(savedId) {
+                let users = getUsers();
+                let user = users.find(u => u.id == savedId);
+                if(user && !user.banned) {
+                    curUser = {id:user.id, username:user.username, rank:user.rank||'user', bio:user.bio, avatar:user.avatar, pinned:user.pinned, createdAt:user.createdAt, userId:user.userId, telegram_id:user.telegram_id};
+                    curSess = savedSid;
+                    let sess = getSess();
+                    if(!sess[curUser.id] || !sess[curUser.id].find(s => s.sid === curSess)) {
+                        localStorage.removeItem("currentUserId");
+                        localStorage.removeItem("currentSessionId");
+                        curUser = null;
+                        curSess = null;
+                    }
+                } else {
+                    localStorage.removeItem("currentUserId");
+                    localStorage.removeItem("currentSessionId");
+                }
+            }
+            renderAuth();
+            renderCases();
+            updateRank();
+            updateSearch();
+            document.getElementById('telegramBtn').onclick = () => window.open('https://t.me/+xzvQvSTwVt5kNzVl', '_blank');
+            document.getElementById('supportBtn').onclick = () => window.open('https://t.me/overably', '_blank');
+        }
+        init();
+    })();
+</script>
+</body>
+</html>
+```
